@@ -1,1 +1,1 @@
-fish.payara.grpc.GrpcCdiExtension
+custom.extension.grpc.GrpcCdiExtension
