@@ -47,6 +47,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Initialized;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.Bean;
@@ -79,7 +81,7 @@ public class GrpcCdiExtension implements Extension {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public <T extends BindableService> void init(@Observes ServletContext ctx, BeanManager bm) {
+    public <T extends BindableService> void init(@Observes @Initialized(ApplicationScoped.class) ServletContext ctx, BeanManager bm) {
         LOGGER.log(Level.INFO, "Registering gRPC Servlets...");
 
         final CreationalContext cdiContext = bm.createCreationalContext(null);
