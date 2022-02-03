@@ -37,10 +37,12 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package fish.payara.grpc;
+package custom.extension.grpc;
 
+import java.lang.reflect.Type;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,14 +64,18 @@ public class GrpcCdiExtension implements Extension {
 
     private static final Logger LOGGER = Logger.getLogger(GrpcCdiExtension.class.getName());
 
+    private static final String  BINDABLE_SERVICE_TYPE = "BindableService";
+
     private final Set<Bean<? extends BindableService>> services = new HashSet<>();
 
-    public void registerBean(@Observes ProcessManagedBean<? extends BindableService> event) {
-        final Bean<? extends BindableService> bean = event.getBean();
-
-        LOGGER.log(Level.INFO, "Registered gRPC Bean: {0}.", bean.getBeanClass().getName());
-
-        services.add(bean);
+    public void registerBean(@Observes ProcessManagedBean event) {
+        Set<Type> s = event.getBean().getTypes();
+        Optional<Type> optType = s.stream().filter(t -> t.getTypeName().contains(BINDABLE_SERVICE_TYPE)).findAny();
+        if(optType.isPresent()){
+            final Bean<BindableService> bean = event.getBean();
+            LOGGER.log(Level.INFO, "Registered gRPC Bean: {0}.", bean.getBeanClass().getName());
+            services.add(bean);
+        }
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

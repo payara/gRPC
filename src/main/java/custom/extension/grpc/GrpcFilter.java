@@ -37,7 +37,7 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package fish.payara.grpc;
+package custom.extension.grpc;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -54,8 +54,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.grpc.BindableService;
-import io.grpc.servlet.ServletAdapter;
-import io.grpc.servlet.ServletAdapterBuilder;
+import custom.extension.grpc.servlet.ServletAdapter;
+import custom.extension.grpc.servlet.ServletAdapterBuilder;
 
 public class GrpcFilter extends HttpFilter {
 

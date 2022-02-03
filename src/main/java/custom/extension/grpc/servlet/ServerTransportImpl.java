@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.grpc.servlet;
+package custom.extension.grpc.servlet;
 
 import java.util.concurrent.ScheduledExecutorService;
 
-import static io.grpc.servlet.Preconditions.checkNotNull;
+import static custom.extension.grpc.servlet.Preconditions.checkNotNull;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import io.grpc.InternalChannelz.SocketStats;

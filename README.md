@@ -13,7 +13,7 @@ mvn clean install
 
 The resulted jar file with name grpc-1.0.0-SNAPSHOT.jar must be included in the 
 war application with the generated stubs from the client implementation. If you want to see more details
-about to create a war client please see the following repo [Payara-Examples gRPC](https://github.com/payara/Payara-Examples/tree/master/grpc).  
+about to create a war client, please see the following example [Payara-Examples gRPC](https://github.com/payara/Payara-Examples/tree/master/grpc).  
 
 
 ## Enterprise
@@ -28,3 +28,7 @@ from client implementation
     <version>1.0.0</version>
 </dependency>
 ```
+
+Then, after deploying the application, the custom server for gRPC and the filter to resolve client gRPC calls from
+client will be enabled
+

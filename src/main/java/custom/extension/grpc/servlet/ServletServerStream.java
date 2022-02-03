@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.grpc.servlet;
+package custom.extension.grpc.servlet;
 
 import static io.grpc.internal.GrpcUtil.CONTENT_TYPE_GRPC;
 import static io.grpc.internal.GrpcUtil.CONTENT_TYPE_KEY;

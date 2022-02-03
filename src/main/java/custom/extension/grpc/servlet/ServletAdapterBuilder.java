@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package io.grpc.servlet;
+package custom.extension.grpc.servlet;
 
 import static io.grpc.internal.GrpcUtil.DEFAULT_MAX_MESSAGE_SIZE;
-import static io.grpc.servlet.Preconditions.checkNotNull;
-import static io.grpc.servlet.Preconditions.checkState;
 
 import java.io.File;
 import java.io.IOException;
@@ -87,7 +85,7 @@ public final class ServletAdapterBuilder extends ServerBuilder<ServletAdapterBui
    */
   @Override
   public Server build() {
-    checkState(internalCaller, "build() method should not be called directly by an application");
+    Preconditions.checkState(internalCaller, "build() method should not be called directly by an application");
     return delegate.build();
   }
 
@@ -127,7 +125,7 @@ public final class ServletAdapterBuilder extends ServerBuilder<ServletAdapterBui
         @Override
         public InternalServer buildClientTransportServers(
                 List<? extends ServerStreamTracer.Factory> streamTracerFact) {
-          checkNotNull(streamTracerFact, "streamTracerFactories");
+          Preconditions.checkNotNull(streamTracerFact, "streamTracerFactories");
           streamTracerFactories = streamTracerFact;
           internalServer = new InternalServerImpl();
           return internalServer;
@@ -143,7 +141,7 @@ public final class ServletAdapterBuilder extends ServerBuilder<ServletAdapterBui
    * @return this
    */
   public ServletAdapterBuilder scheduledExecutorService(ScheduledExecutorService scheduler) {
-    this.scheduler = checkNotNull(scheduler, "scheduler");
+    this.scheduler = Preconditions.checkNotNull(scheduler, "scheduler");
     usingCustomScheduler = true;
     return this;
   }

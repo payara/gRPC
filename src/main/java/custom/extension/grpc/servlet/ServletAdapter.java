@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.grpc.servlet;
+package custom.extension.grpc.servlet;
 
-import static io.grpc.servlet.Preconditions.checkArgument;
-import static io.grpc.servlet.Preconditions.checkNotNull;
 import static io.grpc.internal.GrpcUtil.TIMEOUT_KEY;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.FINEST;
@@ -111,8 +109,8 @@ public final class ServletAdapter {
    * calling {@code resp.setBufferSize()} before invocation is allowed.
    */
   public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    checkArgument(req.isAsyncSupported(), "servlet does not support asynchronous operation");
-    checkArgument(ServletAdapter.isGrpc(req), "the request is not a gRPC request");
+    Preconditions.checkArgument(req.isAsyncSupported(), "servlet does not support asynchronous operation");
+    Preconditions.checkArgument(ServletAdapter.isGrpc(req), "the request is not a gRPC request");
 
     InternalLogId logId = InternalLogId.allocate(ServletAdapter.class, null);
     logger.log(FINE, "[{0}] RPC started", logId);
@@ -160,7 +158,7 @@ public final class ServletAdapter {
 
   private static Metadata getHeaders(HttpServletRequest req) {
     Enumeration<String> headerNames = req.getHeaderNames();
-    checkNotNull(
+    Preconditions.checkNotNull(
         headerNames, "Servlet container does not allow HttpServletRequest.getHeaderNames()");
     List<byte[]> byteArrays = new ArrayList<>();
     while (headerNames.hasMoreElements()) {

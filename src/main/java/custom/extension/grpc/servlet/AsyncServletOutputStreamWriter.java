@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package io.grpc.servlet;
+package custom.extension.grpc.servlet;
 
-import static io.grpc.servlet.ServletServerStream.toHexString;
+import static custom.extension.grpc.servlet.ServletServerStream.toHexString;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.FINEST;
 
 import io.grpc.InternalLogId;
 import io.grpc.Status;
-import io.grpc.servlet.ServletServerStream.ServletTransportState;
+import custom.extension.grpc.servlet.ServletServerStream.ServletTransportState;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Queue;
