@@ -63,7 +63,7 @@
                                     javax.servlet,
                                     javax.servlet.http,
                                     javax.xml.bind</Import-Package>
-                <Export-Package>custom.extension,custom.grpc.servlet,io.grpc.BindableService,io.grpc.*,io.grpc.protobuf.*,
+                <Export-Package>custom.extension.grpc,custom.extension.grpc.servlet,io.grpc.BindableService,io.grpc.*,io.grpc.protobuf.*,
                                     com.google.protobuf.*,com.google.protobuf.util.*</Export-Package>
                 <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
               </instructions>
