@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
 
-import javax.annotation.concurrent.NotThreadSafe;
-
 import io.grpc.BindableService;
 import io.grpc.CompressorRegistry;
 import io.grpc.DecompressorRegistry;
@@ -46,7 +44,6 @@ import io.grpc.internal.*;
  * <a href=https://github.com/grpc/grpc-java/issues/5066>the tracking issue</a>.
  */
 @ExperimentalApi("https://github.com/grpc/grpc-java/issues/5066")
-@NotThreadSafe
 public final class ServletAdapterBuilder extends ServerBuilder<ServletAdapterBuilder> {
 
   @SuppressWarnings("rawtypes")

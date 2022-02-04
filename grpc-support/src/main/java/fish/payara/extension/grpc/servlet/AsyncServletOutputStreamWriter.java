@@ -29,8 +29,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Logger;
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nullable;
 import javax.servlet.AsyncContext;
 import javax.servlet.ServletOutputStream;
 
@@ -76,7 +74,6 @@ final class AsyncServletOutputStreamWriter {
   private final Queue<ActionItem> writeChain = new ConcurrentLinkedQueue<>();
   // for a theoretical race condition that onWritePossible() is called immediately after isReady()
   // returns false and before writeState.compareAndSet()
-  @Nullable
   private volatile Thread parkingThread;
 
   AsyncServletOutputStreamWriter(
@@ -229,13 +226,11 @@ final class AsyncServletOutputStreamWriter {
      * Only {@code onWritePossible()} can set readyAndEmpty to true, and only {@code
      * runOrBufferActionItem()} can set it to false.
      */
-    @CheckReturnValue
     WriteState withReadyAndEmpty(boolean readyAndEmpty) {
       return new WriteState(readyAndEmpty);
     }
 
     /** Only {@code runOrBufferActionItem()} can call it, and will set readyAndEmpty to false. */
-    @CheckReturnValue
     WriteState newItemBuffered() {
       return new WriteState(false);
     }

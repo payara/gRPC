@@ -48,7 +48,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
 import javax.servlet.AsyncContext;
 import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletResponse;
@@ -238,7 +237,7 @@ final class ServletServerStream extends AbstractServerStream {
     }
 
     @Override
-    public void writeFrame(@Nullable WritableBuffer frame, boolean flush, int numMessages) {
+    public void writeFrame(WritableBuffer frame, boolean flush, int numMessages) {
       if (frame == null && !flush) {
         return;
       }
