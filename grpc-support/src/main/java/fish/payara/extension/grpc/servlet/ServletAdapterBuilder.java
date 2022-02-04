@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package custom.extension.grpc.servlet;
+package fish.payara.extension.grpc.servlet;
 
 import static io.grpc.internal.GrpcUtil.DEFAULT_MAX_MESSAGE_SIZE;
 

@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package custom.extension.grpc.servlet;
+package fish.payara.extension.grpc.servlet;
 
-import static custom.extension.grpc.servlet.ServletServerStream.toHexString;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.FINEST;
 
 import io.grpc.InternalLogId;
 import io.grpc.Status;
-import custom.extension.grpc.servlet.ServletServerStream.ServletTransportState;
+
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Queue;
@@ -64,7 +63,7 @@ final class AsyncServletOutputStreamWriter {
   private final AtomicReference<WriteState> writeState = new AtomicReference<>(WriteState.DEFAULT);
 
   private final ServletOutputStream outputStream;
-  private final ServletTransportState transportState;
+  private final ServletServerStream.ServletTransportState transportState;
   private final InternalLogId logId;
   private final ActionItem flushAction;
   private final ActionItem completeAction;
@@ -83,7 +82,7 @@ final class AsyncServletOutputStreamWriter {
   AsyncServletOutputStreamWriter(
       AsyncContext asyncContext,
       ServletOutputStream outputStream,
-      ServletTransportState transportState,
+      ServletServerStream.ServletTransportState transportState,
       InternalLogId logId) {
     this.outputStream = outputStream;
     this.transportState = transportState;
@@ -114,7 +113,7 @@ final class AsyncServletOutputStreamWriter {
             logger.log(
                 FINEST,
                 "[{0}] outbound data: length = {1}, bytes = {2}",
-                new Object[]{logId, numBytes, toHexString(bytes, numBytes)});
+                new Object[]{logId, numBytes, ServletServerStream.toHexString(bytes, numBytes)});
           }
         });
   }

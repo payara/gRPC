@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package custom.extension.grpc.servlet;
+package fish.payara.extension.grpc.servlet;
 
 import static io.grpc.internal.GrpcUtil.CONTENT_TYPE_GRPC;
 import static io.grpc.internal.GrpcUtil.CONTENT_TYPE_KEY;

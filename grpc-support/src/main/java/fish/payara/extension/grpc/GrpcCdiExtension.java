@@ -37,7 +37,7 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package custom.extension.grpc;
+package fish.payara.extension.grpc;
 
 import java.lang.reflect.Type;
 import java.util.EnumSet;
