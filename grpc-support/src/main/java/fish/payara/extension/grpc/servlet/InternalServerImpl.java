@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package custom.extension.grpc.servlet;
+package fish.payara.extension.grpc.servlet;
 
 import java.net.SocketAddress;
 import java.util.Arrays;
@@ -25,7 +25,6 @@ import io.grpc.InternalInstrumented;
 import io.grpc.internal.InternalServer;
 import io.grpc.internal.ServerListener;
 
-import javax.annotation.Nullable;
 
 final class InternalServerImpl implements InternalServer {
 
@@ -64,7 +63,6 @@ final class InternalServerImpl implements InternalServer {
         return null;
     }
 
-    @Nullable
     @Override
     public List<InternalInstrumented<SocketStats>> getListenSocketStatsList() {
         return null;

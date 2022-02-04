@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package custom.extension.grpc.servlet;
+package fish.payara.extension.grpc.servlet;
 
 import java.util.concurrent.ScheduledExecutorService;
 
-import static custom.extension.grpc.servlet.Preconditions.checkNotNull;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import io.grpc.InternalChannelz.SocketStats;
@@ -34,7 +33,7 @@ final class ServerTransportImpl implements ServerTransport {
     private final boolean usingCustomScheduler;
 
     public ServerTransportImpl(ScheduledExecutorService scheduler, boolean usingCustomScheduler) {
-        this.scheduler = checkNotNull(scheduler, "scheduler");
+        this.scheduler = Preconditions.checkNotNull(scheduler, "scheduler");
         this.usingCustomScheduler = usingCustomScheduler;
     }
 

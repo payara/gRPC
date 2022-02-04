@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package custom.extension.grpc.servlet;
+package fish.payara.extension.grpc.servlet;
 
 import static io.grpc.internal.GrpcUtil.DEFAULT_MAX_MESSAGE_SIZE;
 
@@ -23,8 +23,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
-
-import javax.annotation.concurrent.NotThreadSafe;
 
 import io.grpc.BindableService;
 import io.grpc.CompressorRegistry;
@@ -46,7 +44,6 @@ import io.grpc.internal.*;
  * <a href=https://github.com/grpc/grpc-java/issues/5066>the tracking issue</a>.
  */
 @ExperimentalApi("https://github.com/grpc/grpc-java/issues/5066")
-@NotThreadSafe
 public final class ServletAdapterBuilder extends ServerBuilder<ServletAdapterBuilder> {
 
   @SuppressWarnings("rawtypes")

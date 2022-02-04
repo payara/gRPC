@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package custom.extension.grpc.servlet;
+package fish.payara.extension.grpc.servlet;
 
-import static custom.extension.grpc.servlet.ServletServerStream.toHexString;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.FINEST;
 
 import io.grpc.InternalLogId;
 import io.grpc.Status;
-import custom.extension.grpc.servlet.ServletServerStream.ServletTransportState;
+
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Queue;
@@ -30,8 +29,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Logger;
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nullable;
 import javax.servlet.AsyncContext;
 import javax.servlet.ServletOutputStream;
 
@@ -64,7 +61,7 @@ final class AsyncServletOutputStreamWriter {
   private final AtomicReference<WriteState> writeState = new AtomicReference<>(WriteState.DEFAULT);
 
   private final ServletOutputStream outputStream;
-  private final ServletTransportState transportState;
+  private final ServletServerStream.ServletTransportState transportState;
   private final InternalLogId logId;
   private final ActionItem flushAction;
   private final ActionItem completeAction;
@@ -77,13 +74,12 @@ final class AsyncServletOutputStreamWriter {
   private final Queue<ActionItem> writeChain = new ConcurrentLinkedQueue<>();
   // for a theoretical race condition that onWritePossible() is called immediately after isReady()
   // returns false and before writeState.compareAndSet()
-  @Nullable
   private volatile Thread parkingThread;
 
   AsyncServletOutputStreamWriter(
       AsyncContext asyncContext,
       ServletOutputStream outputStream,
-      ServletTransportState transportState,
+      ServletServerStream.ServletTransportState transportState,
       InternalLogId logId) {
     this.outputStream = outputStream;
     this.transportState = transportState;
@@ -114,7 +110,7 @@ final class AsyncServletOutputStreamWriter {
             logger.log(
                 FINEST,
                 "[{0}] outbound data: length = {1}, bytes = {2}",
-                new Object[]{logId, numBytes, toHexString(bytes, numBytes)});
+                new Object[]{logId, numBytes, ServletServerStream.toHexString(bytes, numBytes)});
           }
         });
   }
@@ -213,11 +209,11 @@ final class AsyncServletOutputStreamWriter {
      *
      * <p>readyAndEmpty turns from false to true when:
      * {@code onWritePossible()} exits while currently there is no more data to write, but the last
-     * check of {@link javax.servlet.ServletOutputStream#isReady()} is true.
+     * check of {@link ServletOutputStream#isReady()} is true.
      *
      * <p>readyAndEmpty turns from false to true when:
      * {@code runOrBufferActionItem()} exits while either the action item is written directly to the
-     * servlet output stream and the check of {@link javax.servlet.ServletOutputStream#isReady()}
+     * servlet output stream and the check of {@link ServletOutputStream#isReady()}
      * right after that returns false, or the action item is buffered into the writeChain.
      */
     final boolean readyAndEmpty;
@@ -230,13 +226,11 @@ final class AsyncServletOutputStreamWriter {
      * Only {@code onWritePossible()} can set readyAndEmpty to true, and only {@code
      * runOrBufferActionItem()} can set it to false.
      */
-    @CheckReturnValue
     WriteState withReadyAndEmpty(boolean readyAndEmpty) {
       return new WriteState(readyAndEmpty);
     }
 
     /** Only {@code runOrBufferActionItem()} can call it, and will set readyAndEmpty to false. */
-    @CheckReturnValue
     WriteState newItemBuffered() {
       return new WriteState(false);
     }
