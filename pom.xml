@@ -41,14 +41,15 @@
 
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>fish.payara.extensions</groupId>
-    <artifactId>grpc</artifactId>
+    <groupId>fish.payara.extensions.grpc</groupId>
+    <artifactId>grpc-parent</artifactId>
     <name>Payara gRPC Support</name>
-    <packaging>jar</packaging>
+
+    <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
@@ -59,117 +60,7 @@
         <protobuf.version>3.19.2</protobuf.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-api</artifactId>
-            <version>8.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>4.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.weld</groupId>
-            <artifactId>weld-api</artifactId>
-            <version>3.1.Final</version>
-        </dependency>
-        <!-- gRPC dependencies -->
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-core</artifactId>
-            <version>${grpc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-stub</artifactId>
-            <version>${grpc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-protobuf</artifactId>
-            <version>${grpc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-census</artifactId>
-            <version>${grpc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java-util</artifactId>
-            <version>${protobuf.version}</version>
-        </dependency>
-    </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <artifactSet>
-                                <excludes>
-                                    <exclude>jakarta.*:*</exclude>
-                                    <exclude>javax.*:*</exclude>
-                                    <exclude>*:jsr305</exclude>
-                                    <exclude>org.jboss.*:*</exclude>
-                                </excludes>
-                            </artifactSet>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                        <exclude>META-INF/io.netty.versions.properties</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
-                                    <resource>META-INF/MANIFEST.MF</resource>
-                                    <file>${project.build.directory}/classes/META-INF/MANIFEST.MF</file>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <version>5.1.2</version>
-                <extensions>true</extensions>
-                <executions>
-                    <execution>
-                        <id>bundle-manifest</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>manifest</goal>
-                        </goals>
-                        <configuration>
-                            <instructions>
-                                <Import-Package>
-                                    javax.enterprise.context.spi,
-                                    javax.enterprise.inject.spi,
-                                    javax.enterprise.event,
-                                    javax.servlet,
-                                    javax.servlet.http,
-                                    javax.xml.bind
-                                </Import-Package>
-                                <Export-Package>custom.extension.grpc,custom.extension.grpc.servlet,io.grpc.BindableService,io.grpc.*,io.grpc.protobuf.*,
-                                    com.google.protobuf.*,com.google.protobuf.util.*</Export-Package>
-                                <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
-                            </instructions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <modules>
+        <module>grpc-support</module>
+    </modules>
 </project>

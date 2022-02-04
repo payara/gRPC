@@ -213,11 +213,11 @@ final class AsyncServletOutputStreamWriter {
      *
      * <p>readyAndEmpty turns from false to true when:
      * {@code onWritePossible()} exits while currently there is no more data to write, but the last
-     * check of {@link javax.servlet.ServletOutputStream#isReady()} is true.
+     * check of {@link ServletOutputStream#isReady()} is true.
      *
      * <p>readyAndEmpty turns from false to true when:
      * {@code runOrBufferActionItem()} exits while either the action item is written directly to the
-     * servlet output stream and the check of {@link javax.servlet.ServletOutputStream#isReady()}
+     * servlet output stream and the check of {@link ServletOutputStream#isReady()}
      * right after that returns false, or the action item is buffered into the writeChain.
      */
     final boolean readyAndEmpty;
