@@ -57,7 +57,8 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <grpc.version>1.43.1</grpc.version>
-        <payara.version>5.2021.10</payara.version>
+        <protobuf.version>3.19.4</protobuf.version>
+        <payara.version>5.36.0-SNAPSHOT</payara.version>
     </properties>
 
     <dependencyManagement>
@@ -73,6 +74,13 @@
                 <groupId>fish.payara.api</groupId>
                 <artifactId>payara-bom</artifactId>
                 <version>${payara.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-bom</artifactId>
+                <version>${protobuf.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
