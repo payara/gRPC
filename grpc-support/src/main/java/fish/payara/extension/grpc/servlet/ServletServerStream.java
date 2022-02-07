@@ -330,7 +330,7 @@ final class ServletServerStream extends AbstractServerStream {
     }
     if (length > 64) {
       int offset = max(64, length - 16);
-      hex += printHexBinary(copyOfRange(bytes, offset, length - offset));
+      hex += printHexBinary(copyOfRange(bytes, offset, length));
     }
     return hex;
   }
