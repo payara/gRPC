@@ -29,6 +29,10 @@ public class GrpcServletInitializer implements ServletContextListener {
         if (beanManager != null) { // one cannot be sure
             Set<Bean<?>> grpcServices = beanManager.getBeans(BindableService.class);
 
+            if (grpcServices.isEmpty()) {
+                Logger.getLogger(GrpcServletInitializer.class.getName())
+                        .warning("No gRPC services found at startup. Verify that the application does NOT include library io.grpc:grpc-api");
+            }
             // Create the filter
             final Filter filter = new GrpcFilter(beanManager, grpcServices.toArray(new Bean[0]));
 
