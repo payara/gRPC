@@ -47,6 +47,7 @@ import java.util.Map.Entry;
 
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpFilter;
@@ -61,18 +62,36 @@ public class GrpcFilter extends HttpFilter {
 
     private static final long serialVersionUID = 1L;
 
-    private final CreationalContext<BindableService> cdiContext;
 
-    private final Map<Bean<BindableService>, BindableService> services;
+    class Reference {
+        private final Bean<BindableService> bean;
+
+        CreationalContext<BindableService> ctx;
+        BindableService instance;
+
+        Reference(Bean<BindableService> bean) {
+            ctx = beanManager.createCreationalContext(bean);
+            instance = bean.create(ctx);
+            this.bean = bean;
+        }
+
+        void dispose() {
+            bean.destroy(instance, ctx);
+        }
+    }
+
+    private final Map<Bean<BindableService>, Reference> services;
+
+    private final BeanManager beanManager;
 
     private ServletAdapter adapter;
 
-    protected GrpcFilter(CreationalContext<BindableService> cdiContext, Bean<BindableService>... serviceBeans) {
+    protected GrpcFilter(BeanManager bm, Bean<BindableService>... serviceBeans) {
         services = new HashMap<>();
         for (Bean<BindableService> serviceBean : serviceBeans) {
             services.put(serviceBean, null);
         }
-        this.cdiContext = cdiContext;
+        this.beanManager = bm;
     }
 
     @Override
@@ -102,15 +121,12 @@ public class GrpcFilter extends HttpFilter {
     public void init() throws ServletException {
 
         // For each service
-        final Iterator<Entry<Bean<BindableService>, BindableService>> iterator = services.entrySet().iterator();
+        final Iterator<Entry<Bean<BindableService>, Reference>> iterator = services.entrySet().iterator();
         while (iterator.hasNext()) {
-            final Entry<Bean<BindableService>, BindableService> entry = iterator.next();
+            final Entry<Bean<BindableService>, Reference> entry = iterator.next();
             if (entry.getValue() == null) {
 
-                // Create the service
-                final BindableService service = entry.getKey().create(cdiContext);
-
-                entry.setValue(service);
+                entry.setValue(new Reference(entry.getKey()));
             }
         }
 
@@ -118,8 +134,8 @@ public class GrpcFilter extends HttpFilter {
             ServletAdapterBuilder builder = new ServletAdapterBuilder();
 
             // Register each service
-            for (BindableService service : services.values()) {
-                builder = builder.addService(service);
+            for (Reference service : services.values()) {
+                builder = builder.addService(service.instance);
             }
 
             this.adapter = builder.buildServletAdapter();
@@ -132,17 +148,12 @@ public class GrpcFilter extends HttpFilter {
     public void destroy() {
 
         // For each service
-        final Iterator<Entry<Bean<BindableService>, BindableService>> iterator = services.entrySet().iterator();
-        while (iterator.hasNext()) {
-            final Entry<Bean<BindableService>, BindableService> entry = iterator.next();
-            if (entry.getValue() != null) {
-
-                // Destroy the service
-                entry.getKey().destroy(entry.getValue(), cdiContext);
-
-                iterator.remove();
+        for (Reference value : services.values()) {
+            if (value != null) {
+                value.dispose();
             }
         }
+        services.clear();
 
         if (adapter != null) {
             adapter.destroy();
