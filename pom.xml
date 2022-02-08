@@ -61,6 +61,15 @@
         <payara.version>5.36.0-SNAPSHOT</payara.version>
     </properties>
 
+    <licenses>
+        <license>
+            <name>CDDL + GPLv2 with classpath exception</name>
+            <url>https://raw.githubusercontent.com/payara/payara/master/LICENSE.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

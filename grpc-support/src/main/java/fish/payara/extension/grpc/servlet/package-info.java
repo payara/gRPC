@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+// Portions Copyright 2021-2022 Payara Foundation and/or its affiliates
 
 /**
  * API that implements gRPC server as a servlet. The API requires that the application container
