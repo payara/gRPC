@@ -17,6 +17,15 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <licenses>
+        <license>
+            <name>Apache License v2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+            <comments>Servlet adapter code is distributed under ASL</comments>
+        </license>
+    </licenses>
+
     <dependencies>
         <dependency>
             <groupId>jakarta.platform</groupId>

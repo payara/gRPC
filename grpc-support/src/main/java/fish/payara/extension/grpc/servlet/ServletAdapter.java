@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+// Portions Copyright 2021-2022 Payara Foundation and/or its affiliates
 package fish.payara.extension.grpc.servlet;
 
 import static io.grpc.internal.GrpcUtil.TIMEOUT_KEY;
@@ -153,7 +154,7 @@ public final class ServletAdapter {
 
     asyncCtx.getRequest().getInputStream()
         .setReadListener(new GrpcReadListener(stream, asyncCtx, logId));
-    asyncCtx.addListener(new GrpcAsycListener(stream, logId));
+    asyncCtx.addListener(new GrpcAsyncListener(stream, logId));
   }
 
   private static Metadata getHeaders(HttpServletRequest req) {
@@ -197,11 +198,11 @@ public final class ServletAdapter {
     transportListener.transportTerminated();
   }
 
-  private static final class GrpcAsycListener implements AsyncListener {
+  private static final class GrpcAsyncListener implements AsyncListener {
     final InternalLogId logId;
     final ServletServerStream stream;
 
-    GrpcAsycListener(ServletServerStream stream, InternalLogId logId) {
+    GrpcAsyncListener(ServletServerStream stream, InternalLogId logId) {
       this.stream = stream;
       this.logId = logId;
     }
