@@ -23,6 +23,13 @@
             <artifactId>jakarta.jakartaee-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- server internals -->
+        <dependency>
+            <groupId>fish.payara.server.internal.common</groupId>
+            <artifactId>glassfish-api</artifactId>
+            <version>${payara.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- gRPC dependencies -->
         <dependency>
             <groupId>io.grpc</groupId>
@@ -102,9 +109,51 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java-util</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.findbugs</groupId>
+                    <artifactId>jsr305</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.errorprone</groupId>
+                    <artifactId>error_prone_annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.j2objc</groupId>
+                    <artifactId>j2objc-annotations</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>fish.payara.server.internal.common</groupId>
+            <artifactId>internal-api</artifactId>
+            <version>${payara.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>fish.payara.server.internal.deployment</groupId>
+            <artifactId>dol</artifactId>
+            <version>${payara.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.glassfish.hk2</groupId>
+                <artifactId>hk2-inhabitant-generator</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-inhabitants</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -118,12 +167,23 @@
                         <configuration>
                             <instructions>
                                 <Import-Package>
-                                    javax.*, com.sun.*
+                                    javax.*,
+                                    com.sun.enterprise.module;version="(2,3)",
+                                    org.glassfish.hk2.*;version="(2,3)",
+                                    com.sun.enterprise.*;version="(5,6)",
+                                    org.glassfish.*;version="(5,6)"
                                 </Import-Package>
-                                <!-- jsr305 annotations use javax.annotation package, we don't this to break classloading -->
-                                <Export-Package>!javax.*,*</Export-Package>
+                                <Include-Resource>META-INF/hk2-locator/=target/classes/META-INF/hk2-locator/,{maven-resources}</Include-Resource>
+                                <!-- anything we put in export from transitive deps gets exported thanks to
+                                embed-dependency. So we need to find out which packages grps runtime uses. This is not complete -->
+                                <Export-Package>fish.payara.extension.grpc.*,
+                                    io.grpc,
+                                    io.grpc.*,
+                                    com.google.*,
+                                    google.*,
+                                    org.checkerframework.*</Export-Package>
                                 <Embed-Dependency>
-                                    *;scope=runtime|compile;groupId="!jakarta.platform";inline=!module-info.class
+                                    *;scope=runtime|compile;inline=!module-info.class
                                 </Embed-Dependency>
                                 <Embed-Transitive>true</Embed-Transitive>
                             </instructions>
