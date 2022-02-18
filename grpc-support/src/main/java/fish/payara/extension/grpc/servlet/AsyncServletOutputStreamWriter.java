@@ -75,6 +75,7 @@ final class AsyncServletOutputStreamWriter {
   // for a theoretical race condition that onWritePossible() is called immediately after isReady()
   // returns false and before writeState.compareAndSet()
   private volatile Thread parkingThread;
+  private boolean complete;
 
   AsyncServletOutputStreamWriter(
       AsyncContext asyncContext,
@@ -94,6 +95,7 @@ final class AsyncServletOutputStreamWriter {
           () -> {
             transportState.complete();
             asyncContext.complete();
+            complete = true;
             logger.log(FINE, "[{0}] call completed", logId);
           });
     };
@@ -164,7 +166,8 @@ final class AsyncServletOutputStreamWriter {
     WriteState curState = writeState.get();
     if (curState.readyAndEmpty) { // write to the outputStream directly
       actionItem.run();
-      if (!outputStream.isReady()) {
+      // if we already completed touching outputStream is not legal (and also fails)
+      if (!complete && !outputStream.isReady()) {
         logger.log(FINEST, "[{0}] the servlet output stream becomes not ready", logId);
         boolean successful = writeState.compareAndSet(curState, curState.withReadyAndEmpty(false));
         assert successful;
