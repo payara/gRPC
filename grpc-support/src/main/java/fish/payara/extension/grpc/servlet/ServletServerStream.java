@@ -134,17 +134,14 @@ final class ServletServerStream extends AbstractServerStream {
 
   final class ServletTransportState extends TransportState {
 
-    private final SerializingExecutor transportThreadExecutor =
-        new SerializingExecutor(Executors.newSingleThreadExecutor());
-
     private ServletTransportState(
         int maxMessageSize, StatsTraceContext statsTraceCtx, TransportTracer transportTracer) {
       super(maxMessageSize, statsTraceCtx, transportTracer);
     }
 
     @Override
-    public void runOnTransportThread(Runnable r) {
-      transportThreadExecutor.execute(r);
+    public synchronized void runOnTransportThread(Runnable r) {
+      r.run();
     }
 
     @Override
