@@ -83,10 +83,12 @@ public class GrpcServletInitializer implements ServletContextListener {
 
             // Configure the filter
             // TODO: parse the method name from the prototype generation
-            registration.setAsyncSupported(true);
-            registration.addMappingForUrlPatterns( //
-                    EnumSet.of(DispatcherType.ASYNC, DispatcherType.REQUEST) //
-                    , false, "/*");
+            if(registration != null) {
+                registration.setAsyncSupported(true);
+                registration.addMappingForUrlPatterns( //
+                        EnumSet.of(DispatcherType.ASYNC, DispatcherType.REQUEST) //
+                        , false, "/*");
+            }
         }
     }
 }
