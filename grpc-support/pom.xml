@@ -175,7 +175,7 @@
                         <configuration>
                             <instructions>
                                 <Import-Package>
-                                    javax.*,
+                                    jakarta.*,
                                     com.sun.enterprise.module;version="(2,3)",
                                     org.glassfish.hk2.*;version="(2,3)",
                                     com.sun.enterprise.*;version="(5,6)",
