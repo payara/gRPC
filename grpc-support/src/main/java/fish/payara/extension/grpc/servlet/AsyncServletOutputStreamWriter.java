@@ -29,8 +29,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Logger;
-import javax.servlet.AsyncContext;
-import javax.servlet.ServletOutputStream;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.ServletOutputStream;
 
 /** Handles write actions from the container thread and the application thread. */
 final class AsyncServletOutputStreamWriter {
@@ -132,7 +132,7 @@ final class AsyncServletOutputStreamWriter {
     }
   }
 
-  /** Called from the container thread {@link javax.servlet.WriteListener#onWritePossible()}. */
+  /** Called from the container thread {@link jakarta.servlet.WriteListener#onWritePossible()}. */
   void onWritePossible() throws IOException {
     logger.log(
         FINEST, "[{0}] onWritePossible: ENTRY. The servlet output stream becomes ready", logId);

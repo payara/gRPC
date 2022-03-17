@@ -42,7 +42,7 @@
 
 package fish.payara.extension.grpc.deployment;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import org.glassfish.api.container.Container;
 import org.glassfish.api.deployment.Deployer;
