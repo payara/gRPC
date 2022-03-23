@@ -22,7 +22,12 @@ import io.grpc.InternalLogId;
 import io.grpc.Metadata;
 import io.grpc.Status;
 import io.grpc.Status.Code;
-import io.grpc.internal.*;
+import io.grpc.internal.AbstractServerStream;
+import io.grpc.internal.GrpcUtil;
+import io.grpc.internal.StatsTraceContext;
+import io.grpc.internal.TransportTracer;
+import io.grpc.internal.TransportFrameUtil;
+import io.grpc.internal.WritableBuffer;
 
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.WriteListener;
@@ -36,13 +41,16 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
+import static java.util.logging.Level.FINE;
+import static java.util.logging.Level.FINEST;
+import static java.util.logging.Level.WARNING;
 
 import static io.grpc.internal.GrpcUtil.CONTENT_TYPE_GRPC;
 import static io.grpc.internal.GrpcUtil.CONTENT_TYPE_KEY;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.util.Arrays.copyOfRange;
-import static java.util.logging.Level.*;
+
 import static jakarta.xml.bind.DatatypeConverter.printHexBinary;
 
 final class ServletServerStream extends AbstractServerStream {
