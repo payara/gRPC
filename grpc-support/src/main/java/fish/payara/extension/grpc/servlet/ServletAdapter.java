@@ -45,13 +45,13 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
-import javax.servlet.AsyncContext;
-import javax.servlet.AsyncEvent;
-import javax.servlet.AsyncListener;
-import javax.servlet.ReadListener;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.AsyncEvent;
+import jakarta.servlet.AsyncListener;
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * An adapter that transforms {@link HttpServletRequest} into gRPC request and lets a gRPC server
@@ -59,7 +59,7 @@ import javax.servlet.http.HttpServletResponse;
  * instantiated by {@link ServletAdapterBuilder#buildServletAdapter()}.
  *
  * <p>In a servlet, calling {@link #doPost(HttpServletRequest, HttpServletResponse)} inside {@link
- * javax.servlet.http.HttpServlet#doPost(HttpServletRequest, HttpServletResponse)} makes the servlet
+ * jakarta.servlet.http.HttpServlet#doPost(HttpServletRequest, HttpServletResponse)} makes the servlet
  * backed by the gRPC server associated with the adapter. The servlet must support Asynchronous
  * Processing and must be deployed to a container that supports servlet 4.0 and enables HTTP/2.
  *
@@ -88,7 +88,7 @@ public final class ServletAdapter {
   }
 
   /**
-   * Call this method inside {@link javax.servlet.http.HttpServlet#doGet(HttpServletRequest,
+   * Call this method inside {@link jakarta.servlet.http.HttpServlet#doGet(HttpServletRequest,
    * HttpServletResponse)} to serve gRPC GET request.
    *
    * <p>This method is currently not impelemented.
@@ -103,7 +103,7 @@ public final class ServletAdapter {
   }
 
   /**
-   * Call this method inside {@link javax.servlet.http.HttpServlet#doPost(HttpServletRequest,
+   * Call this method inside {@link jakarta.servlet.http.HttpServlet#doPost(HttpServletRequest,
    * HttpServletResponse)} to serve gRPC POST request.
    *
    * <p>Do not modify {@code req} and {@code resp} before or after calling this method. However,

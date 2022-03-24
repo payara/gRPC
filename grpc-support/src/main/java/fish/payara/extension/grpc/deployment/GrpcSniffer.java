@@ -47,7 +47,7 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.sun.enterprise.module.HK2Module;
 import org.glassfish.api.container.Sniffer;

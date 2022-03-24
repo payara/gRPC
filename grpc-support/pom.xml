@@ -175,11 +175,11 @@
                         <configuration>
                             <instructions>
                                 <Import-Package>
-                                    javax.*,
-                                    com.sun.enterprise.module;version="(2,3)",
-                                    org.glassfish.hk2.*;version="(2,3)",
-                                    com.sun.enterprise.*;version="(5,6)",
-                                    org.glassfish.*;version="(5,6)"
+                                    jakarta.*,
+                                    com.sun.enterprise.module,
+                                    org.glassfish.hk2.*,
+                                    com.sun.enterprise.*,
+                                    org.glassfish.*
                                 </Import-Package>
                                 <Include-Resource>META-INF/hk2-locator/=target/classes/META-INF/hk2-locator/,{maven-resources}</Include-Resource>
                                 <!-- anything we put in export from transitive deps gets exported thanks to
